@@ -58,7 +58,7 @@ JavaScript so it can be used inside of an Expo project.
 ## Installation
 
 ```bash
-npm install --save expo-jwt
+npm install --save @cardbrother/expo-jwt
 ```
 
 ## Usage
