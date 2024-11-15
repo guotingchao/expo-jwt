@@ -21,6 +21,7 @@
     "dist"
   ],
   "dependencies": {
+    "@changesets/cli": "^2.27.9",
     "crypto-js": "^4.2.0"
   },
   "scripts": {
