@@ -1,15 +1,17 @@
 {
-  "name": "expo-jwt",
-  "version": "1.8.0",
+  "name": "expo-jwt-naxus",
+  "version": "1.8.0-beta",
   "description": "Generate and decode JWT inside of an React Native Expo app",
   "main": "dist/lib/index.js",
   "types": "dist/lib/index.d.ts",
-  "author": "Blake Simpson <hi@blakesimpson.solutions>",
+  "author": "ZiChun Guo <guotingchaopr@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/blake-simpson/expo-jwt.git"
+    "url": "git+https://github.com/guotingchao/expo-jwt.git"
   },
+  "homepage": "https://github.com/guotingchao/expo-jwt",
+  "bugs": "https://github.com/guotingchao/expo-jwt/issues",
   "keywords": [
     "expo",
     "jwt",
