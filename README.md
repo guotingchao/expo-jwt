@@ -16,19 +16,19 @@ JavaScript so it can be used inside of an Expo project.
 ## Supported Algorithms
 
 | HS256 | HS384 | HS512 | RS256 | RS384 | RS512 | ES256 | ES384 | ES512 |
-|-------|-------|-------|-------|-------|-------|-------|-------|-------|
+| ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
 | Yes   | Yes   | Yes   | No    | No    | No    | No    | No    | No    |
 
 ## Supported Claims
 
 | exp | nbf | iat | sub | iss | aud | jti |
-|-----|-----|-----|-----|-----|-----|-----|
+| --- | --- | --- | --- | --- | --- | --- |
 | Yes | Yes | Yes | Yes | Yes | Yes | No  |
 
 ## Installation
 
 ```bash
-npm install --save expo-jwt
+npm install --save @cardbrother/expo-jwt
 ```
 
 ## Usage
@@ -36,28 +36,28 @@ npm install --save expo-jwt
 ### Encode
 
 ```js
-import JWT, { SupportedAlgorithms } from 'expo-jwt';
+import JWT, { SupportedAlgorithms } from "expo-jwt";
 
-const key = 'shh';
+const key = "shh";
 
-JWT.encode({ foo: 'bar' }, key);
+JWT.encode({ foo: "bar" }, key);
 // => eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.YVoZ0LkWCMCnwEf7Nju2SJt_9mseJP1Q3RvCz4frGwM
 
-JWT.encode({ foo: 'bar' }, key, { algorithm: SupportedAlgorithms.HS512 });
+JWT.encode({ foo: "bar" }, key, { algorithm: SupportedAlgorithms.HS512 });
 // => eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.Kyojwz8Z5SckLbMU-EImuzHEjjg_1apSOLz_tsZQj1025OH--qaORzkHUkScScd8-RZnWUdCu0epiaofQZNkBA
 
-JWT.encode({ foo: 'bar' }, key, { algorithm: SupportedAlgorithms.NONE });
+JWT.encode({ foo: "bar" }, key, { algorithm: SupportedAlgorithms.NONE });
 // => eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJmb28iOiJiYXIifQ.
 ```
 
 ### Decode
 
 ```js
-import JWT from 'expo-jwt';
+import JWT from "expo-jwt";
 
-const key = 'shh';
+const key = "shh";
 const token =
-  'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.Kyojwz8Z5SckLbMU-EImuzHEjjg_1apSOLz_tsZQj1025OH--qaORzkHUkScScd8-RZnWUdCu0epiaofQZNkBA';
+  "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.Kyojwz8Z5SckLbMU-EImuzHEjjg_1apSOLz_tsZQj1025OH--qaORzkHUkScScd8-RZnWUdCu0epiaofQZNkBA";
 
 JWT.decode(token, key);
 // => { foo: 'bar' }
@@ -86,13 +86,13 @@ value to the `decode` options.
 
 ```js
 // Issuer - iss
-JWT.decode(token, key, { iss: 'expected-issuer' });
+JWT.decode(token, key, { iss: "expected-issuer" });
 
 // Subject - sub
-JWT.decode(token, key, { sub: 'expected-subject' });
+JWT.decode(token, key, { sub: "expected-subject" });
 
 // Audience - aud
-JWT.decode(token, key, { aud: 'expected-audience' });
+JWT.decode(token, key, { aud: "expected-audience" });
 ```
 
 ### Time Skew
