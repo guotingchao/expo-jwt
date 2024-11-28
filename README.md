@@ -1,3 +1,33 @@
+## Why fork?
+
+### :warning: Note
+
+This is an issue I encountered during a project while collaborating with my colleagues on encryption and decryption with the server.
+
+When our JWT contains a complex URL object, I encountered an error during decoding: enc_base64_1.default.parse(encodedString).toString(enc_utf8_1.default).
+
+After debugging the code, I discovered that the error occurred during the parse stage.
+
+**For example:**
+
+> `https://xxx.com/a-b-cdef-gg/12-32s-ggg/ABCE-111.png?AXSD/50x50`
+
+**becomes:**
+
+> `https://xxx.com/a-b-cdef-gg/12-32s-ggg/ABCE-111.pngAXSD/50x50.`
+
+**This issue arises from the following code:**
+
+```ts
+encodedString.replace(/[\x00-\x1F\x7F]/g, "");
+```
+
+_Additionally, if I remove control characters, the ? in the URL parameter is also removed._
+
+_I resolved this problem by adding a safeUrlBase64To64 method. After testing, everything works fine._
+
+---
+
 # expo-jwt [![Build Status](https://app.travis-ci.com/blake-simpson/expo-jwt.svg?branch=master)](https://app.travis-ci.com/blake-simpson/expo-jwt)
 
 A library for encoding or decoding JSON Web Tokens (JWT) in an Expo based React
@@ -16,13 +46,13 @@ JavaScript so it can be used inside of an Expo project.
 ## Supported Algorithms
 
 | HS256 | HS384 | HS512 | RS256 | RS384 | RS512 | ES256 | ES384 | ES512 |
-|-------|-------|-------|-------|-------|-------|-------|-------|-------|
+| ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
 | Yes   | Yes   | Yes   | No    | No    | No    | No    | No    | No    |
 
 ## Supported Claims
 
 | exp | nbf | iat | sub | iss | aud | jti |
-|-----|-----|-----|-----|-----|-----|-----|
+| --- | --- | --- | --- | --- | --- | --- |
 | Yes | Yes | Yes | Yes | Yes | Yes | No  |
 
 ## Installation
@@ -36,28 +66,28 @@ npm install --save expo-jwt
 ### Encode
 
 ```js
-import JWT, { SupportedAlgorithms } from 'expo-jwt';
+import JWT, { SupportedAlgorithms } from "expo-jwt";
 
-const key = 'shh';
+const key = "shh";
 
-JWT.encode({ foo: 'bar' }, key);
+JWT.encode({ foo: "bar" }, key);
 // => eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.YVoZ0LkWCMCnwEf7Nju2SJt_9mseJP1Q3RvCz4frGwM
 
-JWT.encode({ foo: 'bar' }, key, { algorithm: SupportedAlgorithms.HS512 });
+JWT.encode({ foo: "bar" }, key, { algorithm: SupportedAlgorithms.HS512 });
 // => eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.Kyojwz8Z5SckLbMU-EImuzHEjjg_1apSOLz_tsZQj1025OH--qaORzkHUkScScd8-RZnWUdCu0epiaofQZNkBA
 
-JWT.encode({ foo: 'bar' }, key, { algorithm: SupportedAlgorithms.NONE });
+JWT.encode({ foo: "bar" }, key, { algorithm: SupportedAlgorithms.NONE });
 // => eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJmb28iOiJiYXIifQ.
 ```
 
 ### Decode
 
 ```js
-import JWT from 'expo-jwt';
+import JWT from "expo-jwt";
 
-const key = 'shh';
+const key = "shh";
 const token =
-  'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.Kyojwz8Z5SckLbMU-EImuzHEjjg_1apSOLz_tsZQj1025OH--qaORzkHUkScScd8-RZnWUdCu0epiaofQZNkBA';
+  "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.Kyojwz8Z5SckLbMU-EImuzHEjjg_1apSOLz_tsZQj1025OH--qaORzkHUkScScd8-RZnWUdCu0epiaofQZNkBA";
 
 JWT.decode(token, key);
 // => { foo: 'bar' }
@@ -86,13 +116,13 @@ value to the `decode` options.
 
 ```js
 // Issuer - iss
-JWT.decode(token, key, { iss: 'expected-issuer' });
+JWT.decode(token, key, { iss: "expected-issuer" });
 
 // Subject - sub
-JWT.decode(token, key, { sub: 'expected-subject' });
+JWT.decode(token, key, { sub: "expected-subject" });
 
 // Audience - aud
-JWT.decode(token, key, { aud: 'expected-audience' });
+JWT.decode(token, key, { aud: "expected-audience" });
 ```
 
 ### Time Skew
